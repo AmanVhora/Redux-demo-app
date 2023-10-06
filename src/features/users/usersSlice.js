@@ -7,7 +7,13 @@ const initialState = [
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {}
+  reducers: {
+    userAdded(state, action){
+      state.push(action.payload)
+    },
+  }
 })
+
+export const { userAdded } = usersSlice.actions
 
 export default usersSlice.reducer

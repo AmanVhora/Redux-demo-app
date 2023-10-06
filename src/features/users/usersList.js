@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { AddUserForm } from "./addUserForm";
 
 export const UsersList = () => {
   const users = useSelector(state => state.users)
@@ -13,9 +14,12 @@ export const UsersList = () => {
   ))
 
   return(
-    <section className="users-list">
-      <h2>Users</h2>
-      {renderedUsers}
-    </section>
+    <>
+      <AddUserForm />
+      <section className="users-list">
+        <h2>Users</h2>
+        {renderedUsers}
+      </section>
+    </>
   )
 }
