@@ -107,32 +107,35 @@ section h1 {
 
 /* Posts list */
 
-.post h2 {
+.post h2, .user h2 {
   font-size: 2.5rem;
   margin-bottom: 5px;
 }
 
-.post-excerpt {
+.post-excerpt, .user-excerpt {
   padding: 0.25rem 0.25rem;
   border: 1px solid rgb(177, 174, 174);
   border-radius: 7px;
 }
 
-.posts-list .post-excerpt + .post-excerpt {
+.posts-list .post-excerpt + .post-excerpt,
+.users-list .user-excerpt + .user-excerpt {
   margin-top: 0.5rem;
 }
 
-.posts-container.disabled {
+.posts-container.disabled,
+.users-container.disabled {
   opacity: 0.5;
 }
 
-.post-excerpt h3 {
+.post-excerpt h3, .user-excerpt h3 {
   margin: 0;
   font-size: 1.5rem;
 }
 
-p.post-content {
+p.post-content, p.user-content {
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .button {
