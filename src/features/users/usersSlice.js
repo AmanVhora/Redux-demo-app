@@ -11,12 +11,21 @@ const usersSlice = createSlice({
     userAdded(state, action){
       state.push(action.payload)
     },
+    userUpdated(state, action){
+      const { id, name, dob, phone_no } = action.payload
+      const user = state.find(user => user.id === id)
+      if (user) {
+        user.name = name
+        user.dob = dob
+        user.phone_no = phone_no
+      }
+    },
     userDeleted(state, action){
       state.splice(state.findIndex((user) => user.id === action.payload), 1);
     }
   }
 })
 
-export const { userAdded, userDeleted } = usersSlice.actions
+export const { userAdded, userUpdated, userDeleted } = usersSlice.actions
 
 export default usersSlice.reducer
