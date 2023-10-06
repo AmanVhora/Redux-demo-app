@@ -1,5 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { userDeleted } from "./usersSlice";
 
 export const SingleUserPage = ({ match }) => {
   const { userId } = match.params
@@ -8,6 +10,7 @@ export const SingleUserPage = ({ match }) => {
     state => state.users.find(user => user.id === userId)
   )
 
+  const dispatch = useDispatch()
   if (!user) {
     return(
       <section>
@@ -22,6 +25,7 @@ export const SingleUserPage = ({ match }) => {
         <h3>{user.name}</h3>
         <p className="user-content">Date of Birth: {user.dob}</p>
         <p className="user-content">Phone no: {user.phone_no}</p>
+        <Link to="/users" onClick={() => dispatch(userDeleted(user.id))} className="button">Delete User</Link>
       </article>
     </section>
   )
