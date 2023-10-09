@@ -2,9 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { AddUserForm } from "./addUserForm";
 import { Link } from "react-router-dom";
+import { selectAllUsers } from "./usersSlice";
 
 export const UsersList = () => {
-  const users = useSelector(state => state.users)
+  const users = useSelector(selectAllUsers)
 
   const renderedUsers = users.map(user => (
     <article className="user-excerpt" key={user.id}>
