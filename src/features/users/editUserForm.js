@@ -9,25 +9,28 @@ export const EditUserForm = ({ match }) => {
     state => state.users.find(user => user.id === userId )
   )
   
-  const [name, setName] = useState(user.name)
-  const [dob, setDob] = useState(user.dob)
-  const [phone_no, setPhone_no] = useState(user.phone_no)
+  const [firstName, setFirstName] = useState(user.firstName)
+  const [lastName, setLastName] = useState(user.lastName)
+  const [username, setUsername] = useState(user.username)
 
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const onNameChanged = (e) => setName(e.target.value)
-  const onDobChanged = (e) => setDob(e.target.value)
-  const onPhoneNoChanged = (e) => setPhone_no(e.target.value)
+  const onFirstNameChanged = (e) => setFirstName(e.target.value)
+  const onLastNameChanged = (e) => setLastName(e.target.value)
+  const onUsernameChanged = (e) => setUsername(e.target.value)
+
+  const name = firstName + lastName
 
   const onUpdateUserClicked = () => {
-    if (name && dob && phone_no) {
+    if (username && firstName && lastName) {
       dispatch(
         userUpdated({
           id: userId,
-          name,
-          dob,
-          phone_no
+          firstName,
+          lastName,
+          username,
+          name
         })
       )
       history.push(`/users/${userId}`)
@@ -38,29 +41,26 @@ export const EditUserForm = ({ match }) => {
     <section>
       <h2>Edit User</h2>
       <form>
-        <label htmlFor="userName">Username:</label>
-        <input
-          type="text"
-          id="userName"
-          name="userName"
-          value={name}
-          onChange={onNameChanged}
+      <label htmlFor="userFirstName">First name:</label>
+        <input type="text"
+          id="userFirstName"
+          name="userFirstName"
+          value={firstName}
+          onChange={onFirstNameChanged}
         />
-        <label htmlFor="userDob">Date of Birth:</label>
-        <input
-          type="date"
-          id="userDob"
-          name="userDob"
-          value={dob}
-          onChange={onDobChanged}
+        <label htmlFor="userLastName">Last name:</label>
+        <input type="text"
+          id="userLastName"
+          name="userLastName"
+          value={lastName}
+          onChange={onLastNameChanged}
         />
-        <label htmlFor="userPhoneNo">Phone no:</label>
-        <input
-          type="tel"
-          id="userPhoneNo"
-          name="userPhoneNo"
-          value={phone_no}
-          onChange={onPhoneNoChanged}
+        <label htmlFor="username">Username:</label>
+        <input type="text"
+          id="username"
+          name="username"
+          value={username}
+          onChange={onUsernameChanged}
         />
         <button type="button" className="button" onClick={onUpdateUserClicked}>Update User</button>
       </form>

@@ -23,8 +23,7 @@ export const SingleUserPage = ({ match }) => {
     <section>
       <article className="user">
         <h3>{user.name}</h3>
-        <p className="user-content">Date of Birth: {user.dob}</p>
-        <p className="user-content">Phone no: {user.phone_no}</p>
+        <p className="user-content">Username: {user.username}</p>
         <Link to={`/users/${user.id}/edit`} className="button" style={{marginRight: '16px'}}>Edit User</Link>
         <Link to="/users" onClick={() => dispatch(userDeleted(user.id))} className="button">Delete User</Link>
       </article>
