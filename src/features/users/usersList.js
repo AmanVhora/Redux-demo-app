@@ -9,8 +9,7 @@ export const UsersList = () => {
   const renderedUsers = users.map(user => (
     <article className="user-excerpt" key={user.id}>
       <h3>{user.name}</h3>
-      <p className="user-content">Date of Birth: {user.dob}</p>
-      <p className="user-content">Phone no: {user.phone_no}</p>
+      <p className="user-content">Username: {user.username}</p>
       <Link to={`/users/${user.id}`} className="button muted-button">Show User</Link>
     </article>
   ))
