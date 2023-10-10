@@ -21,8 +21,10 @@ export const EditPostForm = ({ match }) => {
       dispatch(
         postUpdated({
           id: postId,
-          title,
-          content
+          changes: {
+            title,
+            content
+          }
         })
       )
       history.push(`/posts/${postId}`)

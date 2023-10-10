@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userUpdated } from "./usersSlice";
+import { selectUserById, userUpdated } from "./usersSlice";
 import { useHistory } from "react-router-dom";
 
 export const EditUserForm = ({ match }) => {
   const { userId } = match.params
-  const user = useSelector(
-    state => state.users.find(user => user.id === userId )
-  )
+  const user = useSelector(state => selectUserById(state, userId))
   
   const [firstName, setFirstName] = useState(user.firstName)
   const [lastName, setLastName] = useState(user.lastName)
@@ -19,7 +17,6 @@ export const EditUserForm = ({ match }) => {
   const onFirstNameChanged = (e) => setFirstName(e.target.value)
   const onLastNameChanged = (e) => setLastName(e.target.value)
   const onUsernameChanged = (e) => setUsername(e.target.value)
-
   const name = firstName + lastName
 
   const onUpdateUserClicked = () => {
@@ -27,10 +24,12 @@ export const EditUserForm = ({ match }) => {
       dispatch(
         userUpdated({
           id: userId,
-          firstName,
-          lastName,
-          username,
-          name
+          changes: {
+            firstName,
+            lastName,
+            username,
+            name
+          }
         })
       )
       history.push(`/users/${userId}`)
