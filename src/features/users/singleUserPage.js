@@ -2,17 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectUserById, userDeleted } from "./usersSlice";
-import { selectAllPosts } from "../posts/postsSlice";
+import { selectPostsByUser } from "../posts/postsSlice";
 
 export const SingleUserPage = ({ match }) => {
   const { userId } = match.params
   const user = useSelector(state => selectUserById(state, userId))
   const dispatch = useDispatch()
 
-  const postsForUser = useSelector(state => {
-    const allPosts = selectAllPosts(state)
-    return allPosts.filter(post => post.user === userId)
-  })
+  const postsForUser = useSelector(state => selectPostsByUser(state, userId))
 
   const postTitle = postsForUser.map(post => (
     <li key={post.id}>
