@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { postDeleted, selectPostById } from "./postsSlice";
 import { PostAuthor } from "./postAuthor";
+import { TimeAgo } from "./timeAgo";
+import { ReactionButtons } from "./reactionButtons";
 
 export const SinglePostPage = ({ match }) => {
   const { postId } = match.params
@@ -21,8 +23,12 @@ export const SinglePostPage = ({ match }) => {
     <section>
       <article className="post">
         <h2>{post.title}</h2>
-        <p className="post-content">{post.content}</p>
-        <PostAuthor userId={post.userId} /><br />
+        <div>
+          <PostAuthor userId={post.user} />
+          <TimeAgo timestamp={post.date} />
+        </div>
+        <p className="post-content">{post.content.substring(0, 100)}</p>
+        <ReactionButtons post={post} />
         <Link to={`/posts/${post.id}/edit`} className="button">Edit Post</Link>
         <Link to="/" onClick={() => dispatch(postDeleted(post.id))} className="button" style={{margin: "0 0 8px 16px"}}>Delete Post</Link>
       </article>
