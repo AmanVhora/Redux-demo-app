@@ -22,7 +22,7 @@ export const SinglePostPage = ({ match }) => {
       <article className="post">
         <h2>{post.title}</h2>
         <p className="post-content">{post.content}</p>
-        <PostAuthor userId={post.userId} />
+        <PostAuthor userId={post.userId} /><br />
         <Link to={`/posts/${post.id}/edit`} className="button">Edit Post</Link>
         <Link to="/" onClick={() => dispatch(postDeleted(post.id))} className="button" style={{margin: "0 0 8px 16px"}}>Delete Post</Link>
       </article>

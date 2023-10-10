@@ -6,6 +6,6 @@ export const PostAuthor = ({ userId }) => {
     state => state.users.find(user => user.id === userId )
   )
   return(
-    <p>-by <strong>{ author? author.name : 'Unknown author'}</strong></p>
+    <span>-by <strong>{ author? author.name : 'Unknown author'}</strong></span>
   )
 }

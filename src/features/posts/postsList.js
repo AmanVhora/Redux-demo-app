@@ -4,12 +4,16 @@ import { Link } from "react-router-dom";
 import { PostAuthor } from "./postAuthor";
 import { fetchPosts, selectAllPosts } from "./postsSlice";
 import { Spinner } from "../../components/Spinner";
+import { TimeAgo } from "./timeAgo";
 
 const PostExcerpt = ({ post }) => {
   return (
     <article className="post-excerpt">
       <h3>{post.title}</h3>
-      <PostAuthor userId={post.user} />
+      <div>
+        <PostAuthor userId={post.user} />
+        <TimeAgo timestamp={post.date} />
+      </div>
       <p className="post-content">{post.content.substring(0, 100)}</p>
       <Link to={`/posts/${post.id}`} className="button muted-button">View Post</Link>
     </article>
@@ -34,7 +38,8 @@ export const PostsList = () => {
   if (postStatus === 'loading') {
     content = <Spinner text="Loading..." />
   } else if (postStatus === 'succeeded') {
-    content = posts.map(post => (
+    const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
+    content = orderedPosts.map(post => (
       <PostExcerpt key={post.id} post={post} />
     ))
   } else if (postStatus === 'failed') {
