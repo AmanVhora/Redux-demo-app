@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { userAdded } from './usersSlice';
-import { useDispatch } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { userAdded } from "./usersSlice";
 
 export const AddUserForm = () => {
   const [firstName, setFirstName] = useState('')
@@ -14,9 +14,10 @@ export const AddUserForm = () => {
   const name = firstName + lastName
 
   const dispatch = useDispatch()
+  const canSave = [username, firstName, lastName].every(Boolean)
 
   const onSaveUserClicked = () => {
-    if (username && firstName && lastName) {
+    if (canSave) {
       dispatch(
         userAdded({
           id: nanoid(),
@@ -57,7 +58,9 @@ export const AddUserForm = () => {
           value={username}
           onChange={onUsernameChanged}
         />
-        <button type="button" onClick={onSaveUserClicked}>Save User</button>
+        <button type="button" onClick={onSaveUserClicked} disabled={!canSave}>
+          Save User
+        </button>
       </form>
     </section>
   )
