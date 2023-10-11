@@ -32,6 +32,28 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Post', id: arg.id }]
     }),
+    addReaction: builder.mutation({
+      query: ({ postId, reaction }) => ({
+        url: `/posts/${postId}/reactions`,
+        method: 'POST',
+        body: { reaction }
+      }),
+      async onQueryStarted({ postId, reaction }, { dispatch, queryFulfilled }) {
+        const patchRequest = dispatch(
+          apiSlice.util.updateQueryData('getPosts', undefined, draft => {
+            const post = draft.find(post => post.id === postId)
+            if (post) {
+              post.reactions[reaction]++
+            }
+          })
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          patchRequest.undo()
+        }
+      }
+    })
   })
 })
 
@@ -39,5 +61,6 @@ export const {
   useGetPostsQuery,
   useGetPostQuery,
   useAddNewPostMutation,
-  useEditPostMutation
+  useEditPostMutation,
+  useAddReactionMutation
 } = apiSlice
