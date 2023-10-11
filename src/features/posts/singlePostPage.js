@@ -1,26 +1,24 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { postDeleted, selectPostById } from "./postsSlice";
+import { postDeleted } from "./postsSlice";
 import { PostAuthor } from "./postAuthor";
 import { TimeAgo } from "./timeAgo";
 import { ReactionButtons } from "./reactionButtons";
+import { useGetPostQuery } from "../api/apiSlice";
+import { Spinner } from "../../components/Spinner";
 
 export const SinglePostPage = ({ match }) => {
   const { postId } = match.params
-  const post = useSelector(state => selectPostById(state, postId))
   const dispatch = useDispatch()
-  
-  if (!post) {
-    return(
-      <section>
-        <h2>Post not found!</h2>
-      </section>
-    )
-  }
+  const { data: post, isFetching, isSuccess } = useGetPostQuery(postId)
 
-  return (
-    <section>
+  let content
+
+  if (isFetching) {
+    content = <Spinner text="Loading..." />
+  } else if (isSuccess) {
+    content = (
       <article className="post">
         <h2>{post.title}</h2>
         <div>
@@ -32,6 +30,8 @@ export const SinglePostPage = ({ match }) => {
         <Link to={`/posts/${post.id}/edit`} className="button">Edit Post</Link>
         <Link to="/" onClick={() => dispatch(postDeleted(post.id))} className="button" style={{margin: "0 0 8px 16px"}}>Delete Post</Link>
       </article>
-    </section>
-  )
+    )
+  }
+
+  return (<section>{content}</section>)
 }
