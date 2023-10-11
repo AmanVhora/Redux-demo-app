@@ -5,6 +5,7 @@ import { Spinner } from "../../components/Spinner";
 import { TimeAgo } from "./timeAgo";
 import { ReactionButtons } from "./reactionButtons";
 import { useGetPostsQuery } from "../api/apiSlice";
+import classnames from "classnames";
 
 let PostExcerpt = ({ post }) => {
   return (
@@ -25,6 +26,7 @@ export const PostsList = () => {
   const {
     data: posts = [],
     isLoading,
+    isFetching,
     isSuccess,
     isError,
     error
@@ -41,9 +43,15 @@ export const PostsList = () => {
   if (isLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
-    content = sortedPosts.map(post => (
+    const renderedPosts = sortedPosts.map(post => (
       <PostExcerpt key={post.id} post={post} />
     ))
+
+    const containerClassname = classnames('post-container', {
+      disabled: isFetching
+    })
+
+    content = <div className={containerClassname}>{renderedPosts}</div>
   } else if (isError) {
     content = <div>{error.toString()}</div>
   }
