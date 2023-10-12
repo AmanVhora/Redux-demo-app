@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectUserById, userDeleted } from "./usersSlice";
-import { selectPostsByUser } from "../posts/postsSlice";
+import { createSelector } from "@reduxjs/toolkit";
+import { useGetPostsQuery } from "../api/apiSlice";
 
 export const SingleUserPage = ({ match }) => {
   const { userId } = match.params
   const user = useSelector(state => selectUserById(state, userId))
   const dispatch = useDispatch()
 
-  const postsForUser = useSelector(state => selectPostsByUser(state, userId))
+  const selectPostForUser = useMemo(() => {
+    const emptyArray = []
+    return createSelector(
+      result => result.data,
+      (result, userId) => userId,
+      (data, userId) => data?.filter(post => post.user === userId) ?? emptyArray
+    )
+  }, [])
+  
+  const { postsForUser } = useGetPostsQuery(undefined, {
+    selectFromResult: result => ({
+      ...result,
+      postsForUser: selectPostForUser(result, userId)
+    })
+  })
 
   const postTitle = postsForUser.map(post => (
     <li key={post.id}>
